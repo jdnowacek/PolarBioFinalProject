@@ -19,11 +19,17 @@ library(tidyverse)
 
 ```{r Data Formatting}
 data <- Shorebird_Data |>
-  slice(1:(n()-2))
+  slice(1:23)
+```
+
+## EDA
+
+```{r exploratory data analysis}
+data |>
+  ggplot(aes(x = Year, group = 1)) +
+  geom_path(aes(y = SpringSnow)) +
+  geom_point(aes(y = SpringSnow))
 
 ```
 
-
-
-
-EOL
+EOF
