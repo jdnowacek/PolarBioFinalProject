@@ -22,14 +22,43 @@ data <- Shorebird_Data |>
   slice(1:23)
 ```
 
+Is shorebird nest initiation driven by climatic conditions, food or both?
+
+  linear regressions between food emergence day/abundance and bird nesting day
+  same with spring temp/snow cover
+  side-by-side line and point graphs of emergence days over the years, do they respond each year?        respond to previous years?
+  
+Are there differences among shorebird species?
+
+  simpler stats, just a t-test of the average or median emergence, are they statistically different?
+  do they respond to each of the previous tests to a greater/lesser degree
+
+Are there indications of a temporal mis-match between shorebirds and their prey?
+
+  answered from the previous plots
+  
+Test 1: linear regression between the emergence days, maybe a plot with ab lines
+
+Test 2: side-by-side point graphs, look at trends visually to see if there is clear following or response
+
+Test 3: check for stat sig diff btw each species, see what they respond to, hypothesize
+
 ## EDA
 
 ```{r exploratory data analysis}
 data |>
-  ggplot(aes(x = Year, group = 1)) +
+  ggplot(aes(x = Year, group = 1, color = SpringTemp)) +
   geom_path(aes(y = SpringSnow)) +
-  geom_point(aes(y = SpringSnow))
+  geom_point(aes(y = SpringSnow)) +
+  theme_linedraw() +
+  labs(title = "Spring Snow Coverage", y = "Snow Cover Percentage")
+```
 
+```{r day of year plots}
+# data |>
+#   ggplot(aes(x = Year, group = 1)) +
+#   geom_path(aes(y = c()) +
+#   geom_point(aes(y = SpringSnow)) +
 ```
 
 EOF
