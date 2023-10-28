@@ -1,0 +1,85 @@
+---
+title: "Project Code Musk Oxen"
+output: pdf_document
+author: "Jack Nowacek"
+date: "2023-10-19"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Packages
+
+```{r packages}
+library(tidyverse)
+library(readxl)
+library(grid)
+library(gridExtra)
+```
+
+## Data Introduction
+
+```{r Data Formatting}
+data <- read_excel("~/Documents/Copenhagen/Polar_Bio/MuskOxenData.xlsx")
+```
+
+## EDA
+
+```{r exploratory data analysis}
+p1 <- ggplot(data = data, aes(x = Year, y = MeanDensity)) +
+  geom_point() +
+  geom_path() +
+  geom_abline() +
+  theme_minimal()
+
+p2 <- ggplot(data = data, aes(x = Year, y = WinterTemp)) +
+  geom_point() +
+  geom_path() +
+  geom_abline() +
+  theme_minimal()
+
+p3 <- ggplot(data = data, aes(x = Year, y = SpringSnow)) +
+  geom_point() +
+  geom_path() +
+  geom_abline() +
+  theme_minimal()
+
+p4 <- ggplot(data = data, aes(x = Year, y = CalfPercentage)) +
+  geom_point() +
+  geom_path() +
+  geom_abline() +
+  theme_minimal()
+
+grid.arrange(p1, p2, p3, p4, nrow = 4)
+
+# data |>
+#   ggplot(aes(x = Year, group = 1)) +
+#   geom_path(aes(y = CalfPercentage)) +
+#   geom_point(aes(y = CalfPercentage)) +
+#   geom_path(aes(y = MeanDensity)) +
+#   geom_point(aes(y = MeanDensity)) +
+#   theme_linedraw() 
+  
+```
+
+```{r linear regressions}
+density_reg <- lm(CalfPercentage ~ MeanDensity, data = data)
+density_summ <- summary(density_reg)
+density_summ$r.squared
+
+temp_reg <- lm(CalfPercentage ~ WinterTemp, data = data)
+temp_summ <- summary(temp_reg)
+temp_summ$r.squared
+
+snow_reg <- lm(CalfPercentage ~ SpringSnow, data = data)
+snow_summ <- summary(snow_reg)
+snow_summ$r.squared
+
+all_reg <- lm(CalfPercentage ~ MeanDensity + WinterTemp + SpringSnow, data = data)
+all_summ <- summary(snow_reg)
+all_summ$r.squared
+```
+
+
+EOF
