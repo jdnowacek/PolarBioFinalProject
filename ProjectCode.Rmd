@@ -27,10 +27,11 @@ Is shorebird nest initiation driven by climatic conditions, food or both?
   linear regressions between food emergence day/abundance and bird nesting day
   same with spring temp/snow cover
   side-by-side line and point graphs of emergence days over the years, do they respond each year?        respond to previous years?
+  multiple linear regression, bring in climate vars, compare strength
   
 Are there differences among shorebird species?
 
-  simpler stats, just a t-test of the average or median emergence, are they statistically different?
+  simpler stats, just a t-test of the average or median nesting day, are they statistically different?
   do they respond to each of the previous tests to a greater/lesser degree
 
 Are there indications of a temporal mis-match between shorebirds and their prey?

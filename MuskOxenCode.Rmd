@@ -22,6 +22,9 @@ library(gridExtra)
 
 ```{r Data Formatting}
 data <- read_excel("~/Documents/Copenhagen/Polar_Bio/MuskOxenData.xlsx")
+data <- data |>
+  select(!Remarks) |>
+  na.omit()
 ```
 
 ## EDA
@@ -77,9 +80,28 @@ snow_summ <- summary(snow_reg)
 snow_summ$r.squared
 
 all_reg <- lm(CalfPercentage ~ MeanDensity + WinterTemp + SpringSnow, data = data)
-all_summ <- summary(snow_reg)
+all_summ <- summary(all_reg)
 all_summ$r.squared
 ```
 
+```{r outlier query}
+g1 <- data |>
+  ggplot(aes(CalfPercentage)) +
+  geom_boxplot()
+
+g2 <- data |>
+  ggplot(aes(WinterTemp)) +
+  geom_boxplot()
+
+g3 <- data |>
+  ggplot(aes(SpringSnow)) +
+  geom_boxplot()
+
+g4 <- data |>
+  ggplot(aes(MeanDensity)) +
+  geom_boxplot()
+
+grid.arrange(g1, g2, g3, g4, nrow = 2)
+```
 
 EOF
