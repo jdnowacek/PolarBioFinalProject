@@ -7,6 +7,7 @@ date: "2023-10-19"
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
 ```
 
 ## Packages
@@ -102,6 +103,29 @@ g4 <- data |>
   geom_boxplot()
 
 grid.arrange(g1, g2, g3, g4, nrow = 2)
+```
+
+```{r dropped outlier data}
+# no_outliers_data <- data |>
+#   subset(id = c(5, 10, 11))
+
+data_no_out <- data[-c(5,10,11),]
+
+density_reg2 <- lm(CalfPercentage ~ MeanDensity, data = data_no_out)
+density_summ2 <- summary(density_reg2)
+density_summ2$r.squared
+
+temp_reg2 <- lm(CalfPercentage ~ WinterTemp, data = data_no_out)
+temp_summ2 <- summary(temp_reg2)
+temp_summ2$r.squared
+
+snow_reg2 <- lm(CalfPercentage ~ SpringSnow, data = data_no_out)
+snow_summ2 <- summary(snow_reg2)
+snow_summ2$r.squared
+
+all_reg2 <- lm(CalfPercentage ~ MeanDensity + WinterTemp + SpringSnow, data = data_no_out)
+all_summ2 <- summary(all_reg2)
+all_summ2$r.squared
 ```
 
 EOF
