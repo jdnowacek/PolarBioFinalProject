@@ -55,7 +55,12 @@ p4 <- ggplot(data = data, aes(x = Year, y = CalfPercentage)) +
   geom_abline() +
   theme_minimal()
 
-grid.arrange(p1, p2, p3, p4, nrow = 4)
+# p1
+# p2
+# p3
+# p4
+
+grid.arrange(p1, p2, p3, p4, nrow = 2)
 
 # data |>
 #   ggplot(aes(x = Year, group = 1)) +
@@ -83,6 +88,10 @@ snow_summ$r.squared
 all_reg <- lm(CalfPercentage ~ MeanDensity + WinterTemp + SpringSnow, data = data)
 all_summ <- summary(all_reg)
 all_summ$r.squared
+
+density_to_springsnow <- lm(MeanDensity ~ SpringSnow, data = data)
+summary <- summary(density_to_springsnow)
+summary$r.squared
 ```
 
 ```{r outlier query}
@@ -127,5 +136,18 @@ all_reg2 <- lm(CalfPercentage ~ MeanDensity + WinterTemp + SpringSnow, data = da
 all_summ2 <- summary(all_reg2)
 all_summ2$r.squared
 ```
+
+```{r winter_temp predicts spring snow of next year}
+snowy_data <- data |>
+  select(!c("Year", "MeanDensity", "CalfPercentage")) |>
+  mutate(SpringSnow=lead(SpringSnow)) |>
+  slice(1:n()-1)
+
+snowy_reg <- lm(SpringSnow ~ WinterTemp, data = snowy_data)
+snowy_summ <- summary(snowy_reg)
+snowy_summ$r.squared
+```
+
+Failed, no correlation between previous winter temperature and the snow cover of the next year.
 
 EOF
