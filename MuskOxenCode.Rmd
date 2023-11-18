@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Packages
 
-```{r packages, echo=FALSE}
+```{r packages, echo=FALSE, include=FALSE}
 library(tidyverse)
 library(readxl)
 library(grid)
