@@ -72,6 +72,8 @@ grid.arrange(p1, p2, p3, p4, nrow = 2)
 
 Basic trend plots of the four major variables over the range of the data. 
 
+## Linear Regressions
+
 ```{r linear regressions}
 density_reg <- lm(CalfPercentage ~ MeanDensity, data = data)
 density_summ <- summary(density_reg)
@@ -97,6 +99,8 @@ summary$r.squared
 
 Standard linear regressions between calf percentage and the three explanatory variables, then a multiple linear regression between calf percentage and all three variables. Finally a regression where spring snow predicts mean density. 
 
+## Outlier Investigation
+
 ```{r outlier query}
 g1 <- data |>
   ggplot(aes(CalfPercentage)) +
@@ -116,6 +120,8 @@ g4 <- data |>
 
 grid.arrange(g1, g2, g3, g4, nrow = 2)
 ```
+
+## Linear Regressions No Outliers
 
 ```{r dropped outlier data}
 # no_outliers_data <- data |>
@@ -148,6 +154,8 @@ all_summ2 <- summary(all_reg2)
 all_summ2$r.squared
 ```
 
+## Winter Temp to Spring Snow Idea
+
 ```{r winter_temp predicts spring snow of next year}
 snowy_data <- data |>
   select(!c("Year", "MeanDensity", "CalfPercentage")) |>
@@ -162,6 +170,8 @@ snowy_summ$r.squared
 Failed, no correlation between previous winter temperature and the snow cover of the next year.
 
 Calf percentage (y) vs spring snow cover (x) match x with y based on year, fit between the two variables. Use this type of plot to explore relationship between the other variables
+
+## Plots of Major Relationships
 
 ```{r Calf Percentage vs Snow Cover}
 data |>
@@ -188,13 +198,13 @@ data |>
 
 Is calf production density-dependent?	
 
-Contrary to logical consideration, we found that the density of animals and the calf percentage had an extremely weak positive correlation. We expected that, with increased density of adults, would come increased interactions and therefore increased calf percentage. With an $$R^2$$ value of 0.1034047, there appears to be no significant numerical link between these two variables.
+Contrary to logical consideration, we found that the density of animals and the calf percentage had an extremely weak positive correlation. We expected that, with increased density of adults, would come increased interactions and therefore increased calf percentage. With an $R^2$ value of 0.1034047, there appears to be no significant numerical link between these two variables.
 
 include graph
 
 Are winter conditions (snow and temperature) affecting muskox reproduction or density?	
 
-Yes they do affect reproduction, the strongest correlation in the dataset was between snow cover and calf percentage. While the $$R^2$$ value of 0.3451069 is not very strong by typical standards, it is around three times stronger than the other explanatory variables. As for density, we did not find a strong correlation between the two variables, the $$R^2$$ value was 0.1072841. 
+Yes they do affect reproduction, the strongest correlation in the dataset was between snow cover and calf percentage. While the $R^2$ value of 0.3451069 is not very strong by typical standards, it is around three times stronger than the other explanatory variables. As for density, we did not find a strong correlation between the two variables, the $R^2$ value was 0.1072841. 
 
 If so, what could be the mechanism?	
 
