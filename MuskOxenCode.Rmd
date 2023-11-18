@@ -1,8 +1,10 @@
 ---
 title: "Project Code Musk Oxen"
-output: pdf_document
 author: "Jack Nowacek"
 date: "2023-10-19"
+output:
+  pdf_document: default
+  word_document: default
 ---
 
 ```{r setup, include=FALSE}
