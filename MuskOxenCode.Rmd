@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Packages
 
-```{r packages}
+```{r packages, echo=FALSE}
 library(tidyverse)
 library(readxl)
 library(grid)
@@ -85,7 +85,8 @@ snow_reg <- lm(CalfPercentage ~ SpringSnow, data = data)
 snow_summ <- summary(snow_reg)
 snow_summ$r.squared
 
-all_reg <- lm(CalfPercentage ~ MeanDensity + WinterTemp + SpringSnow, data = data)
+all_reg <- lm(CalfPercentage ~ MeanDensity + 
+                WinterTemp + SpringSnow, data = data)
 all_summ <- summary(all_reg)
 all_summ$r.squared
 
@@ -122,7 +123,8 @@ grid.arrange(g1, g2, g3, g4, nrow = 2)
 
 data_no_out <- data[-c(5, 10, 11, 13, 14, 15, 16),]
 
-# Removes data from years with outliers in the data and those where a disease outbreak affected the population.
+# Removes data from years with outliers in the data and those where a disease 
+# outbreak affected the population.
 
 density_reg2 <- lm(CalfPercentage ~ MeanDensity, data = data_no_out)
 density_summ2 <- summary(density_reg2)
@@ -140,7 +142,8 @@ snow_reg2 <- lm(SpringSnow ~ MeanDensity, data = data_no_out)
 snow_summ2 <- summary(snow_reg2)
 snow_summ2$r.squared
 
-all_reg2 <- lm(CalfPercentage ~ MeanDensity + WinterTemp + SpringSnow, data = data_no_out)
+all_reg2 <- lm(CalfPercentage ~ MeanDensity + 
+                 WinterTemp + SpringSnow, data = data_no_out)
 all_summ2 <- summary(all_reg2)
 all_summ2$r.squared
 ```
