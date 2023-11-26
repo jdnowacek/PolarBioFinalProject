@@ -146,14 +146,47 @@ snow_reg2 <- lm(CalfPercentage ~ SpringSnow, data = data_no_out)
 snow_summ2 <- summary(snow_reg2)
 snow_summ2$r.squared
 
-snow_reg2 <- lm(SpringSnow ~ MeanDensity, data = data_no_out)
-snow_summ2 <- summary(snow_reg2)
-snow_summ2$r.squared
-
 all_reg2 <- lm(CalfPercentage ~ MeanDensity + 
                  WinterTemp + SpringSnow, data = data_no_out)
 all_summ2 <- summary(all_reg2)
 all_summ2$r.squared
+
+snow_reg2 <- lm(SpringSnow ~ MeanDensity, data = data_no_out)
+snow_summ2 <- summary(snow_reg2)
+snow_summ2$r.squared
+```
+
+```{r trends no outliers}
+p11 <- ggplot(data = data_no_out, aes(x = Year, y = MeanDensity)) +
+  geom_point() +
+  geom_path() +
+  geom_abline() +
+  theme_bw()
+
+p21 <- ggplot(data = data_no_out, aes(x = Year, y = WinterTemp)) +
+  geom_point() +
+  geom_path() +
+  geom_abline() +
+  theme_bw()
+
+p31 <- ggplot(data = data_no_out, aes(x = Year, y = SpringSnow)) +
+  geom_point() +
+  geom_path() +
+  geom_abline() +
+  theme_bw()
+
+p41 <- ggplot(data = data_no_out, aes(x = Year, y = CalfPercentage)) +
+  geom_point() +
+  geom_path() +
+  geom_abline() +
+  theme_bw()
+
+# p1
+# p2
+# p3
+# p4
+
+grid.arrange(p11, p21, p31, p41, nrow = 2)
 ```
 
 ## Winter Temp to Spring Snow Idea
