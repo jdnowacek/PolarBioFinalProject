@@ -123,38 +123,15 @@ g4 <- data |>
 grid.arrange(g1, g2, g3, g4, nrow = 2)
 ```
 
-## Linear Regressions No Outliers
+## Outlier Removal
 
-```{r dropped outlier data}
-# no_outliers_data <- data |>
-#   subset(id = c(5, 10, 11))
-
+```{r}
 data_no_out <- data[-c(5, 10, 11, 13, 14, 15, 16),]
 
 # Removes data from years with outliers in the data and those where a disease 
 # outbreak affected the population.
-
-density_reg2 <- lm(CalfPercentage ~ MeanDensity, data = data_no_out)
-density_summ2 <- summary(density_reg2)
-density_summ2$r.squared
-
-temp_reg2 <- lm(CalfPercentage ~ WinterTemp, data = data_no_out)
-temp_summ2 <- summary(temp_reg2)
-temp_summ2$r.squared
-
-snow_reg2 <- lm(CalfPercentage ~ SpringSnow, data = data_no_out)
-snow_summ2 <- summary(snow_reg2)
-snow_summ2$r.squared
-
-all_reg2 <- lm(CalfPercentage ~ MeanDensity + 
-                 WinterTemp + SpringSnow, data = data_no_out)
-all_summ2 <- summary(all_reg2)
-all_summ2$r.squared
-
-snow_reg2 <- lm(SpringSnow ~ MeanDensity, data = data_no_out)
-snow_summ2 <- summary(snow_reg2)
-snow_summ2$r.squared
 ```
+
 
 ```{r trends no outliers}
 p11 <- ggplot(data = data_no_out, aes(x = Year, y = MeanDensity)) +
@@ -189,47 +166,94 @@ p41 <- ggplot(data = data_no_out, aes(x = Year, y = CalfPercentage)) +
 grid.arrange(p11, p21, p31, p41, nrow = 2)
 ```
 
-## Winter Temp to Spring Snow Idea
-
-```{r winter_temp predicts spring snow of next year}
-snowy_data <- data |>
-  select(!c("Year", "MeanDensity", "CalfPercentage")) |>
-  mutate(SpringSnow=lead(SpringSnow)) |>
-  slice(1:n()-1)
-
-snowy_reg <- lm(SpringSnow ~ WinterTemp, data = snowy_data)
-snowy_summ <- summary(snowy_reg)
-snowy_summ$r.squared
-```
-
-Failed, no correlation between previous winter temperature and the snow cover of the next year.
-
-Calf percentage (y) vs spring snow cover (x) match x with y based on year, fit between the two variables. Use this type of plot to explore relationship between the other variables
-
 ## Plots of Major Relationships
 
 ```{r Calf Percentage vs Snow Cover}
-data |>
-  slice(1:12, 17:n()) |>
-  ggplot(aes(SpringSnow, CalfPercentage)) +
-  geom_point() +
-  geom_smooth(method = lm) +
-  theme_bw() 
-
-data |>
+data_no_out |>
   ggplot(aes(MeanDensity, CalfPercentage)) +
   geom_point() +
   geom_smooth(method = lm) +
-  theme_bw() 
+  theme_bw()
 
-data |>
-  ggplot(aes(MeanDensity, SpringSnow)) +
+s1 <- data_no_out |>
+  ggplot(aes(SpringSnow, CalfPercentage)) +
   geom_point() +
   geom_smooth(method = lm) +
-  theme_bw() 
+  theme_minimal() +
+  labs(title = "R Squared = 0.3451069")
+
+s2 <- data_no_out |>
+  ggplot(aes(WinterTemp, CalfPercentage)) +
+  geom_point() +
+  geom_smooth(method = lm) +
+  theme_minimal() +
+  labs(title = "R Squared = 0.07583693")
   
+s3 <- data_no_out |>
+  ggplot(aes(SpringSnow, MeanDensity)) +
+  geom_point() +
+  geom_smooth(method = lm) +
+  theme_minimal() +
+  labs(title = "R Squared = 0.1072841")
+
+s4 <- data_no_out |>
+  ggplot(aes(WinterTemp, MeanDensity)) +
+  geom_point() +
+  geom_smooth(method = lm) +
+  theme_minimal() +
+  labs(title = "R Squared = 0.01863429")
 ```
 
+```{r}
+grid.arrange(s1, s2, s3, s4, nrow = 2)
+
+# Add lines outside and between all graphs
+grid.lines(x = c(0, 0, 1, 1, 0), y = c(0, 1, 1, 0, 0), gp = gpar(col = "black"))
+grid.lines(x = c(0, 1), y = c(0.5, 0.5), gp = gpar(col = "black"))
+grid.lines(x = c(0.5, 0.5), y = c(0, 1), gp = gpar(col = "black"))
+
+
+```
+## Linear Regressions No Outliers
+
+```{r dropped outlier data}
+# no_outliers_data <- data |>
+#   subset(id = c(5, 10, 11))
+
+density_reg2 <- lm(CalfPercentage ~ MeanDensity, data = data_no_out)
+density_summ2 <- summary(density_reg2)
+CalfP_Density <- density_summ2$r.squared
+
+snow_reg2 <- lm(CalfPercentage ~ SpringSnow, data = data_no_out)
+snow_summ2 <- summary(snow_reg2)
+CalfP_Snow <- snow_summ2$r.squared
+
+temp_reg2 <- lm(CalfPercentage ~ WinterTemp, data = data_no_out)
+temp_summ2 <- summary(temp_reg2)
+CalfP_Winter <- temp_summ2$r.squared
+
+snow_reg22 <- lm(MeanDensity ~ SpringSnow, data = data_no_out)
+snow_summ22 <- summary(snow_reg22)
+Density_Snow <- snow_summ22$r.squared
+
+temp_reg22 <- lm(MeanDensity ~ WinterTemp, data = data_no_out)
+temp_summ22 <- summary(temp_reg22)
+Density_Winter <- temp_summ22$r.squared
+
+all_reg2 <- lm(CalfPercentage ~ MeanDensity + 
+                 WinterTemp + SpringSnow, data = data_no_out)
+all_summ2 <- summary(all_reg2)
+CalfP_all <- all_summ2$r.squared
+```
+
+```{r display values}
+CalfP_Density
+CalfP_Snow
+CalfP_Winter
+Density_Snow
+Density_Winter
+CalfP_all
+```
 
 Is calf production density-dependent?	
 
