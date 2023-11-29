@@ -173,7 +173,8 @@ data_no_out |>
   ggplot(aes(MeanDensity, CalfPercentage)) +
   geom_point() +
   geom_smooth(method = lm) +
-  theme_bw()
+  theme_bw() +
+    labs(title = "R Squared = 0.1034047")
 
 s1 <- data_no_out |>
   ggplot(aes(SpringSnow, CalfPercentage)) +
